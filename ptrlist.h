@@ -64,6 +64,14 @@ int plist_ins(plist_t *l, void *p, size_t i);
 // The deleted pointer, or NULL on error. 
 void *plist_del(plist_t *l, size_t i);
 
+// Deletes a range of pointers in the given pointer list. 
+//
+// PARAMS: 
+// l - the pointer list to delete the pointers
+// i - the starting index of the pointers
+// n - the number of pointers to delete
+void plist_delrange(plist_t *l, size_t i, size_t n);
+
 // Clears the given pointer list, freeing every element. 
 //
 // PARAMS: 

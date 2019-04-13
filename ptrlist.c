@@ -101,6 +101,27 @@ void *plist_del(plist_t *l, size_t i) {
     return ret;
 }
 
+// Deletes a range of pointers in the given pointer list. 
+//
+// PARAMS: 
+// l - the pointer list to delete the pointers
+// i - the starting index of the pointers
+// n - the number of pointers to delete
+void plist_delrange(plist_t *l, size_t i, size_t n) {
+    if (!plist_check(l) || n == 0)
+        return;
+
+    // fix out of bound ranges if required
+    i = (i >= l->len) ? (l->len - 1) : i;
+    n = (n > l->len - i) ? (l->len - i) : n;
+    size_t left = l->len - (i + n);
+    for (size_t j = 0; j < n; j++)
+        l->free(l->ptrs[i + j]);
+    if (left != 0)      // move leftover pointers back
+        memmove(l->ptrs + i, l->ptrs + i + n, left * sizeof(void *));
+    l->len -= n;
+}
+
 // Clears the given pointer list, freeing every element. 
 //
 // PARAMS: 
